@@ -1,4 +1,4 @@
-# Image Upload to MinIO with RabbitMQ for Messaging Queue
+# RabbitMQ for Messaging Queue for Image uploading
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -24,7 +24,7 @@ Before you begin, ensure you have met the following requirements:
 ## Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/yourproject.git
+    git clone https://github.com/yash-k2001/rabbitmq-messages_queueing.git
     cd yourproject
     ```
 
