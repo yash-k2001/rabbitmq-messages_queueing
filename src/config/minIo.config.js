@@ -1,6 +1,6 @@
-require('dotenv').config();
-const Minio = require('minio');
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
+const Minio = require('minio');
 const MinIoClient = new Minio.Client({
     endPoint: process.env.MINIO_HOST,
     port: Number(process.env.MINIO_PORT),

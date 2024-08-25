@@ -1,4 +1,4 @@
-# Image Upload to MinIO using Multer
+# Image Upload to MinIO with RabbitMQ for Messaging Queue
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -9,17 +9,16 @@
 - [Project Structure](#project-structure)
 
 ## Introduction
-This project demonstrates how to upload images to MinIO using Multer in an Express.js application. MinIO is a high-performance, S3-compatible object storage. Multer is a middleware for handling `multipart/form-data`, which is primarily used for uploading files.
+This project demonstrates how to upload images to MinIO using Multer in an Express.js application, and how to implement a messaging queue using RabbitMQ to handle asynchronous events. MinIO is a high-performance, S3-compatible object storage, while RabbitMQ is a reliable messaging broker. Multer is a middleware for handling `multipart/form-data`, which is primarily used for uploading files.
 
 ## Features
-- Upload images to MinIO.
-- Retrieve images from MinIO. **In Upcoming Release**
-- Uses Multer for handling file uploads.
+- Asynchronous messaging using RabbitMQ for processing image upload events.
 
 ## Prerequisites
 Before you begin, ensure you have met the following requirements:
 - Node.js (v16 or v18 preferred)
 - MinIO server (running and accessible)
+- RabbitMQ server (running and accessible)
 - npm (Node Package Manager)
 
 ## Installation
@@ -34,13 +33,16 @@ Before you begin, ensure you have met the following requirements:
     npm install
     ```
 
-3. Create a `.env` file in the root directory and add your MinIO configuration:
+3. Create a `.env` file in the root directory and add your MinIO and RabbitMQ configuration:
     ```env
     MINIO_END_POINT=host
     MINIO_PORT=9000
     MINIO_ACCESS_KEY=youraccesskey
     MINIO_SECRET_KEY=yoursecretkey
     MINIO_BUCKET_NAME=yourbucketname
+
+    RABBITMQ_URL=amqp://your_rabbitmq_host
+    RABBITMQ_QUEUE=your_queue_name
     ```
 
 ## Usage
@@ -51,6 +53,8 @@ Before you begin, ensure you have met the following requirements:
 
 2. Use an API client (like Postman) to test the endpoints.
 
+3. RabbitMQ will handle image upload events asynchronously. Ensure RabbitMQ is running and properly configured.
+
 ## Project Structure
 ```plaintext
 yourproject
@@ -60,17 +64,21 @@ yourproject
 │   README.md
 │
 └───src
-    │   app.js
     │   server.js
     │
     ├───config
     │       minioClient.js
+    │       rabbitmqClient.js
     │
     ├───controllers
-    │       uploadController.js
+    │       uploadController.js      
     │
     ├───routes
-    │       uploadRoutes.js
+    │       secured.route.js
     │
-    └───middlewares
-            multerConfig.js
+    ├───middlewares
+    │       multerConfig.js
+    │
+    └───rabbitmq
+            consumer.js
+            producer.js
